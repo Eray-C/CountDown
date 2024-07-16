@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - CountDown</title>
+
+    @Styles.Render("Content/style.css")
+    @Styles.Render("/Content/Bootstrap/bootstrap.css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <navbar class="mt-5">
+        <h1 class="text-center">CountDown Tool</h1>
+    </navbar>
+    @RenderBody()
+
+    <footer>
+    </footer>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Content/script.js")
+    @Scripts.Render("~/Content/util.js")
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-countdown@2.2.0/dist/jquery.countdown.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>
