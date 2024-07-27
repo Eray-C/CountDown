@@ -1,15 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
+using System.Text;
 using System.Web.Mvc;
 using CountDown.Entities;
+using Microsoft.AspNet.Identity;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using System.ComponentModel;
+using System.Web.Script.Serialization;
+
 
 namespace CountDown.Controllers
 {
+
+	[Authorize]
 	public class CountdownsController : Controller
 	{
 		private DataContext db = new DataContext();
@@ -17,31 +22,32 @@ namespace CountDown.Controllers
 		// GET: Countdowns
 		public ActionResult Index()
 		{
-			return View(db.Countdowns.ToList());
+			string user = User.Identity.GetUserId();
+			var userCountdowns = db.Countdowns.Where(c => c.UserId == user).ToList();
+			return View(userCountdowns);
 		}
-		[HttpPost]
 
+		[HttpPost]
 		public ActionResult Save(Countdown countdata)
 		{
+			string userId = User.Identity.GetUserId();
 			try
 			{
 				if (ModelState.IsValid)
 				{
-				
-					
-					{
-						var countdownEntity = new Countdown
-						{
-							UserId = null, 
-							StartDate = DateTime.Now,
-							EndDate = countdata.EndDate,
-							Title = countdata.Title,
-							CreateDate = DateTime.Now
-						};
 
-						db.Countdowns.Add(countdownEntity);
-						db.SaveChanges();
-					}
+					var countdownEntity = new Countdown
+					{
+						UserId = userId,
+						StartDate = DateTime.Now,
+						EndDate = countdata.EndDate,
+						Title = countdata.Title,
+						CreateDate = DateTime.Now
+					};
+
+					db.Countdowns.Add(countdownEntity);
+					db.SaveChanges();
+
 
 					return Json(new { success = true, message = "Countdown başarıyla kaydedildi." });
 				}
@@ -59,7 +65,89 @@ namespace CountDown.Controllers
 			}
 		}
 
-		// GET: Countdowns/Details/5
+
+		[HttpPost]
+
+		public ActionResult Delete(int id)
+		{
+			try
+			{
+				var countdown = db.Countdowns.Find(id);
+				if (countdown == null)
+				{
+					return Json(new { success = false, message = "Countdown bulunamadı." });
+				}
+
+				db.Countdowns.Remove(countdown);
+				db.SaveChanges();
+
+				return Json(new { success = true, message = "Countdown başarıyla silindi." });
+			}
+			catch (Exception ex)
+			{
+				return Json(new { success = false, message = "Silme işlemi sırasında bir hata oluştu: " + ex.Message });
+			}
+		}
+
+		[HttpGet]
+		public ActionResult GetCountdowns()
+
+		{
+
+			try
+			{
+				string user = User.Identity.GetUserId();
+				var userCountdowns = db.Countdowns.Where(c => c.UserId == user).ToList();
+
+				//JavaScriptSerializer ile JSON dönüşümü, tarih formatını belirleyerek
+				var serializer = new JavaScriptSerializer();
+				serializer.RegisterConverters(new JavaScriptConverter[] { new CustomDateTimeConverter() });
+
+				var jsonResult = new ContentResult
+				{
+					Content = serializer.Serialize(userCountdowns),
+					
+					ContentType = "application/json"
+				};
+
+				return jsonResult;
+			}
+			catch (Exception ex)
+			{
+
+				return Json(new
+				{
+					success = false,
+					message = "Silme işlemi sırasında bir hata oluştu: " + ex.Message
+				});
+			}
+
+		}
+
+		[HttpPost]
+		public ActionResult UpdateCountdown(int id, string title, DateTime endDate)
+		{
+			try
+			{
+				// Güncellemeyi yap
+				var countdown = db.Countdowns.Find(id);
+				if (countdown != null)
+				{
+					countdown.Title = title;
+					countdown.EndDate = endDate;
+					db.SaveChanges();
+				}
+
+				return Json(new { success = true });
+			}
+			catch (Exception ex)
+			{
+				// Hata işleme
+				return Json(new { success = false, message = ex.InnerException.Message });
+			}
+		}
+
+
 
 		protected override void Dispose(bool disposing)
 		{

@@ -1,58 +1,64 @@
-﻿@model IEnumerable<CountDown.Entities.Countdown>
-
+﻿
+@model IEnumerable<CountDown.Entities.Countdown>
 @{
-    ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.StartDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EndDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </th>
-        <th></th>
-    </tr>
+<main>
+    <div class="container">
+        <div class="create-countdown">
+            <div class="input-group d-flex">
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <h5>Countdown Date</h5>
+                        <input type="datetime-local" id="countdownDate" name="Enddate" />
+                    </div>
+                </div>
+                <div class="dx-field">
+                    <div class="dx-field-label">Date and time</div>
+                    <div class="dx-field-value">
+                        <div id="date-time"></div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <h5>Countdown Title</h5>
+                        <input type="text" id="countdownTitle" name="Title" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button class="btn btn-success btn-sm" onclick="AddCountdown()" id="save">Save</button>
+                </div>
+            </div>
+        </div>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Title)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StartDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.EndDate)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CreateDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
 
-</table>
+
+
+
+        <div class="row mt-3" id="countdowns">
+            <h4>Countdowns</h4>
+        </div>
+
+    </div>
+
+    @if (Request.IsAuthenticated)
+
+    {
+        <div class="container mt-5">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")"> Logout</a></li>
+            </ul>
+        </div>
+
+    }
+</main>
+
+
+
+
+
+

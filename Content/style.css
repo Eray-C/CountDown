@@ -1,7 +1,7 @@
-﻿html {
-    background-color: #08122b;
-}
-* {
-    background-color: #08122b;
+﻿body{
+    background-color: #08122b;  
     color: #a2a2a2;
+}
+a{
+    text-decoration:none;
 }

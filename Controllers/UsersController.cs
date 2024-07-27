@@ -10,6 +10,8 @@ using CountDown.Entities;
 
 namespace CountDown.Controllers
 {
+	[Authorize]
+
 	public class UsersController : Controller
     {
         public DataContext db = new DataContext();

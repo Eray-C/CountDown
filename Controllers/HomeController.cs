@@ -6,15 +6,14 @@ using System.Web.Mvc;
 
 namespace CountDown.Controllers
 {
+	[Authorize]
+
 	public class HomeController : Controller
 	{
-		public DataContext db = new DataContext();
-
 		// GET: UserModels
 		public ActionResult Index()
 		{
-			var model = db.Users.ToList();
-			return View(model);
+			return View();
 		}
 		public ActionResult About()
 		{
