@@ -4,23 +4,27 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
+
 <main>
     <div class="container">
         <div class="create-countdown">
             <div class="input-group d-flex">
                 <div class="row mb-3">
-
                     <div class="col-md-12">
-                        <h5>Countdown Title</h5>
-                        <div id="dateBox"></div>
+                        <h5>Countdown Date</h5>
+                        <input type="datetime-local" id="countdownDate" name="Enddate" />
                     </div>
-
-
+                </div>
+                <div class="dx-field">
+                    <div class="dx-field-label">Date and time</div>
+                    <div class="dx-field-value">
+                        <div id="date-time"></div>
+                    </div>
                 </div>
                 <div class="row mb-3">
                     <div class="col-md-12">
                         <h5>Countdown Title</h5>
-                        <div id="textBoxContainer"></div>
+                        <input type="text" id="countdownTitle" name="Title" value="" />
                     </div>
                 </div>
             </div>
@@ -37,24 +41,20 @@
 
         <div class="row mt-3" id="countdowns">
             <h4>Countdowns</h4>
-
         </div>
 
     </div>
 
-
     @if (Request.IsAuthenticated)
+
     {
         <div class="container mt-5">
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a id="logoutBtn" class="btn btn-danger btn-sm" href="#" data-logout-url="@Url.Action("Logout", "Account")">Logout</a>
-                </li>
+                <li><a class="btn btn-danger btn-sm" href="@Url.Action("Logout", "Account")"> Logout</a></li>
             </ul>
         </div>
+
     }
-
-
 </main>
 
 
