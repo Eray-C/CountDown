@@ -253,6 +253,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\dx.all.js" />
     <Content Include="Content\script.js" />
     <Content Include="Content\util.js" />
     <Content Include="favicon.ico" />
