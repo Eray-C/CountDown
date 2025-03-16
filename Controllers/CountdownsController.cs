@@ -17,15 +17,15 @@ namespace CountDown.Controllers
 	[Authorize]
 	public class CountdownsController : Controller
 	{
-		private DataContext db = new DataContext();
+		private ApplicationDbContext db = new ApplicationDbContext();
 
-		// GET: Countdowns
 		public ActionResult Index()
 		{
 			string user = User.Identity.GetUserId();
 			var userCountdowns = db.Countdowns.Where(c => c.UserId == user).ToList();
 			return View(userCountdowns);
 		}
+
 
 		[HttpPost]
 		public ActionResult Save(Countdown countdata)
@@ -129,7 +129,6 @@ namespace CountDown.Controllers
 		{
 			try
 			{
-				// Güncellemeyi yap
 				var countdown = db.Countdowns.Find(id);
 				if (countdown != null)
 				{
@@ -142,7 +141,6 @@ namespace CountDown.Controllers
 			}
 			catch (Exception ex)
 			{
-				// Hata işleme
 				return Json(new { success = false, message = ex.InnerException.Message });
 			}
 		}

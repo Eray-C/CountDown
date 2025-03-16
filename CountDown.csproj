@@ -228,8 +228,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationDbContext.cs" />
-    <Compile Include="ApplicationUser.cs" />
+    <Content Include="Content\Jquery\Countup.js" />
+    <Compile Include="Controllers\CountupsController.cs" />
+    <Compile Include="Entities\Countup.cs" />
+    <Compile Include="Helper\ApplicationDbContext.cs" />
+    <Compile Include="Helper\ApplicationUser.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\HttpContextHelper.cs" />
@@ -239,17 +242,19 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CountdownsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\UsersController.cs" />
-    <Compile Include="CustomDateTimeConerter.cs" />
-    <Compile Include="DataContext.cs" />
+    <Compile Include="Helper\CustomJsonResult.cs" />
+    <Compile Include="Helper\CustomDateTimeConerter.cs" />
     <Compile Include="Entities\Countdown.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Entities\User.cs" />
     <Compile Include="Migrations\202503151054226_InitialCreate.cs" />
     <Compile Include="Migrations\202503151054226_InitialCreate.Designer.cs">
       <DependentUpon>202503151054226_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202503151229263_CreateTableCountup.cs" />
+    <Compile Include="Migrations\202503151229263_CreateTableCountup.Designer.cs">
+      <DependentUpon>202503151229263_CreateTableCountup.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -258,8 +263,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\dx.all.js" />
-    <Content Include="Content\script.js" />
-    <Content Include="Content\util.js" />
+    <Content Include="Content\Jquery\TransactionMessages.js" />
+    <Content Include="Content\Jquery\Countdown.js" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\style.css" />
@@ -295,6 +300,7 @@
     <Content Include="Views\Countdowns\Index.cshtml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Countups\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -313,6 +319,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202503151054226_InitialCreate.resx">
       <DependentUpon>202503151054226_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202503151229263_CreateTableCountup.resx">
+      <DependentUpon>202503151229263_CreateTableCountup.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

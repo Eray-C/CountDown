@@ -4,11 +4,10 @@ $(document).ready(function () {
 
 });
 
-//Kayıt Ekleme İşlemi
 function AddCountdown() {
     var formData = {
-        Enddate: $('#dateBox').dxDateBox("instance").option("value"),
-        Title: $('#textBoxContainer').dxTextBox("instance").option("value")
+        Enddate: $("#countdownDate").val(),
+        Title: $("#countdownTitle").val()
     };
 
     $.ajax({
@@ -18,27 +17,20 @@ function AddCountdown() {
         success: function (response) {
 
             if (response.success) {
-                /* alert(response.message);*/
                 GetCountdowns();
-            } //else {
-            //    alert(response.message);
-            //    console.log("Inner Exception:", response.innerException.message);
-            //    if (response.errors) {
-            //        console.log("Hatalar:", response.errors);
-            //    }
-            //}
+                TransactionMessage(1, response.message, "success")
+            }
+            else {
+                TransactionMessage(2, response.message, "error")
+            }
         },
-        //error: function (xhr, status, error) {
-        //    alert("Sunucu hatası! Countdown kaydedilemedi. Hata: " + error);
-        //    console.log("Detaylı Hata:", xhr.responseText);
-        //}
+        error: function (xhr, status, error) {
+            TransactionMessage(2, response.message, "error")
 
-
-
+        }
     });
 }
 
-//Kayıt Çekme İşlemi
 function GetCountdowns() {
     $.ajax({
         type: "GET",
@@ -55,7 +47,6 @@ function GetCountdowns() {
             }
 
 
-            console.log(response);
             var container = $('#countdowns');
             container.html('')
             response.forEach(item => {
@@ -103,27 +94,36 @@ function GetCountdowns() {
     });
 }
 
-//Kayıt Silme İşlemi
 function DeleteCountdown(id) {
     var countdownItem = $('.countdown-item[data-id="' + id + '"]');
+    Swal.fire({
+        title: 'Bu geri sayımı silmek istediğinizden emin misiniz?',
+        text: "Bu işlem geri alınamaz!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Evet, sil!',
+        cancelButtonText: 'Hayır, iptal et'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "/Countdowns/Delete",
+                type: 'POST',
+                data: { id: id },
+                success: function (response) {
+                    if (response.success) {
+                        GetCountdowns();
+                        TransactionMessage(1, response.message, "success");
+                    } else {
+                        TransactionMessage(2, response.message, "error");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    TransactionMessage(2, "Bir hata oluştu. Lütfen tekrar deneyin.", "error");
+                }
+            });
+        }
+    });
 
-    if (confirm('Bu geri sayımı silmek istediğinizden emin misiniz?')) {
-        $.ajax({
-            url: "/Countdowns/Delete",
-            type: 'POST',
-            data: { id: id },
-            success: function (response) {
-                if (response.success) {
-                    GetCountdowns();
-                    /*   alert(response.message);*/
-
-                } /*else {*/
-                //    alert(response.message);
-                //}
-            },
-
-        });
-    }
 }
 
 function EditCountdown(itemDiv) {
@@ -141,11 +141,12 @@ function EditCountdown(itemDiv) {
             EndDate: endDate
         },
         success: function () {
+
             GetCountdowns();
+            TransactionMessage(1)
         },
         error: function (xhr, status, error) {
-            alert("Güncelleme hatası! Hata: " + error);
-            console.log("Detaylı Hata:", xhr.responseText);
+            TransactionMessage(3)
         }
     });
 }

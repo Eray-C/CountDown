@@ -5,3 +5,56 @@
 a{
     text-decoration:none;
 }
+
+.create-countdown {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.create-countdown h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.create-countdown label {
+    font-size: 1rem;
+}
+
+/* Button boyutları ve renk */
+.btn-lg {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+}
+
+/* Countdown listesi için stil */
+#countdowns {
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+/* Responsive düzenleme */
+@media (max-width: 768px) {
+    .create-countdown {
+        padding: 20px;
+    }
+
+        .create-countdown h3 {
+            font-size: 1.3rem;
+        }
+
+        .create-countdown label {
+            font-size: 0.9rem;
+        }
+
+    .btn-lg {
+        font-size: 1rem;
+    }
+}
+
+/* Logout button için margin */
+.navbar-nav {
+    margin-top: 20px;
+}
+
+
